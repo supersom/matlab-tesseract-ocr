@@ -1,0 +1,64 @@
+Index: viewer/svutil.cpp
+===================================================================
+--- viewer/svutil.cpp	(revision 644)
++++ viewer/svutil.cpp	(working copy)
+@@ -362,7 +362,7 @@
+ #if defined(__linux__)
+   char port_str[40];
+   snprintf(port_str, 40, "%d", port);
+-  return getaddrinfo(hostname, port_str, NULL, address);
++//  return getaddrinfo(hostname, port_str, NULL, address);
+ #else
+   return GetAddrInfoNonLinux(hostname, port, address);
+ #endif
+Index: ccutil/tessdatamanager.cpp
+===================================================================
+--- ccutil/tessdatamanager.cpp	(revision 644)
++++ ccutil/tessdatamanager.cpp	(working copy)
+@@ -37,7 +37,7 @@
+   debug_level_ = debug_level;
+   data_file_ = fopen(data_file_name, "rb");
+   if (data_file_ == NULL) {
+-    tprintf("Error opening data file %s\n", data_file_name);
++//    tprintf("Error opening data file %s\n", data_file_name);
+     return false;
+   }
+   fread(&actual_tessdata_num_entries_, sizeof(inT32), 1, data_file_);
+Index: ccutil/mainblk.cpp
+===================================================================
+--- ccutil/mainblk.cpp	(revision 644)
++++ ccutil/mainblk.cpp	(working copy)
+@@ -58,13 +58,6 @@
+   // NULL goes to current directory.
+   // An actual value of argv0 is used if getpath is successful.
+   if (!getenv("TESSDATA_PREFIX")) {
+-#ifdef TESSDATA_PREFIX
+-#define _STR(a) #a
+-#define _XSTR(a) _STR(a)
+-    datadir = _XSTR(TESSDATA_PREFIX);
+-#undef _XSTR
+-#undef _STR
+-#else
+     if (argv0 != NULL) {
+       if (getpath(argv0, dll_module_name, datadir) < 0)
+ #ifdef __UNIX__
+@@ -73,9 +66,16 @@
+         NO_PATH.error("main", DBG, NULL);
+ #endif
+     } else {
+-      datadir = "./";
++#ifdef TESSDATA_PREFIX
++#define _STR(a) #a
++#define _XSTR(a) _STR(a)
++		datadir = _XSTR(TESSDATA_PREFIX);
++#undef _XSTR
++#undef _STR
++#else
++		datadir = "./";
++#endif
+     }
+-#endif
+   } else {
+     datadir = getenv("TESSDATA_PREFIX");
+   }
+
