@@ -1,0 +1,2 @@
+LIBRARY	"tesseract.mexw64"
+EXPORTS mexFunction
