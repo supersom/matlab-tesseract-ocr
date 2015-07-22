@@ -1,0 +1,1 @@
+Provide easy OCR functionality within Matlab by wrapping Tesseract-ocr in a mex function.  Project contains the mex function and patch files for Tesseract-ocr, and compiled binaries for Linux 32/64, Windows 32/64 and OSX 32/64/ppc.
